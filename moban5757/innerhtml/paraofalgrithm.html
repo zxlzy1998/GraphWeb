@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.css">
+</head>
+<body>
+<div class = "row" id="param">
+<!--    <label class="graph_vis_param" id="param" style="position: absolute; left: 98px; top: 40px; width: 209px; height: 33px;">-->
+    <div id="param1" class="col-md-4">
+        <input id ="range1" type="range" max="1000" min="1" step="1" value="100" oninput="change_to_number('value1','range1')" onchange="change_to_number('value1','range1')">
+        <div class="netlogo-slider-label">
+            <span class="netlogo-label">param1</span>
+            <span id="netlogo-slider-value1" >
+                <input id="value1" type="number" min="1" max="1000" step="1" value="100" style="width: 6ch" oninput="change_to_range('value1','range1')" onchange="change_to_range('value1','range1')">
+            </span>
+        </div>
+    </div>
+
+    <div id="param2" class="col-md-4">
+        <input id ="range2" type="range" max="1000" min="1" step="1" value="100" oninput="change_to_number('value2','range2')" onchange="change_to_number('value2','range2')">
+        <div class="netlogo-slider-label">
+            <span class="netlogo-label">param2</span>
+            <span id="netlogo-slider-value2" >
+                <input id="value2" type="number" min="1" max="1000" step="1" value="100" style="width: 6ch" oninput="change_to_range('value2','range2')" onchange="change_to_range('value2','range2')">
+            </span>
+        </div>
+    </div>
+
+    <div id="param3" class="col-md-4">
+        <input id ="range3" type="range" max="1000" min="1" step="1" value="100" oninput="change_to_number('value3','range3')" onchange="change_to_number('value3','range3')">
+        <div class="netlogo-slider-label">
+            <span class="netlogo-label">param3</span>
+            <span id="netlogo-slider-value3" >
+                <input id="value3" type="number" min="1" max="1000" step="1" value="100" style="width: 6ch" oninput="change_to_range('value3','range3')" onchange="change_to_range('value3','range3')">
+            </span>
+        </div>
+
+    </div>
+        <script type='text/javascript'>
+            function change_to_number(value,range) {
+                document.getElementById(value).value = document.getElementById(range).value;
+            }
+            function change_to_range(value,range) {
+                document.getElementById(range).value = document.getElementById(value).value;
+            }
+        </script>
+<!--    </label>-->
+</div>
+
+</body>
+</html>

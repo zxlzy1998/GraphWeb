@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <    <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="robots" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Jobick Job Admin</title>
+
+
+  <link rel="stylesheet" href="static/css/nouislider.min.css">
+  <link href="static/css/nice-select.css" rel="stylesheet">
+
+  <link href="static/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="btn-group">
+  <button type="button" class="dropdown-toggle" data-toggle="dropdown">
+    <span class="buttonText">默认</span>
+<!--    <span class="caret"></span>-->
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="#" onclick="shows($(this).text())">功能</a></li>
+    <li><a href="#" onclick="shows($(this).text())">另一个功能</a></li>
+    <li><a href="#" onclick="shows($(this).text())">其他</a></li>
+    <li><a href="#" onclick="shows($(this).text())">分离的链接</a></li>
+  </ul>
+</div>
+<form action="">
+  <input type="text" list="url_list" name="text" />
+  <input type="submit" />
+</form>
+<datalist id="url_list">
+  <option label="HZ赫兹工作室" value="http://weibo.com/hz421247910" />
+  <option label="提示1" value="列表项1" />
+  <option label="提示2" value="列表项2" />
+  <option label="" value="列表项3" />
+</datalist>
+<div class="content-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-4">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Basic slider</h4>
+          </div>
+          <div class="card-body">
+            <div id="basic-slider"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Stepping and snapping to values</h4>
+          </div>
+          <div class="card-body">
+            <div class="stepping-slider">
+              <div id="slider-step"></div>
+              <span class="example-val" id="slider-step-value"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+<script src="static/js/global.min.js"></script>
+
+<script src="static/js/nouislider.min.js"></script>
+<script src="static/js/wNumb.js"></script>
+<script src="static/js/nouislider-init.js"></script>
+
+<script src="static/js/jquery.nice-select.min.js"></script>
+
+<script src="static/js/custom.min.js"></script>
+<script src="static/js/dlabnav-init.js"></script>
+<script src="static/js/demo.js"></script>
+<script src="static/js/styleSwitcher.js"></script>
+
+<script>
+  function shows(a) {
+    $('.buttonText').text(a)
+  }
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="js/bootstrap.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<div class="meg">
+
+</div>
+<div  class="col" id="file">
+</div>
+<script>
+var txtFile = new XMLHttpRequest();
+txtFile.open("GET","graphdata/paramlist.txt",true);
+txtFile.onreadystatechange = function()
+{
+  if (txtFile.readyState === 4) {
+    if (txtFile.status === 200) {
+      allText = txtFile.responseText;
+      lines = txtFile.responseText.split("\n");
+      var s="";
+      for(var i=1;i<lines.length;i++){
+          var values=lines[i].split(",");
+          var minV=values[1],paraV=values[0],maxV=values[2],stepV=values[3];
+	      var a = "";
+		  var b="col-md-"+12/lines.length;
+		  a+="<div id =" +i +" class ="+b +">";
+		  a+="<input class='range' type='range' min=" + minV + " max=" + maxV + " step=" + stepV + " value="+ minV+ " oninput='range_2_value()'>";
+		  a+="<div class='col-md-12'>";
+		  a+="<span id='para' class='col-md-6'>"+ paraV +" </span>";
+		  a+="<span class='col-md-6' id='number'>";
+		  a+="<input class= 'value' type='number' min=" + minV + " max=" + maxV  + " step=" + stepV + " value="+ minV + " oninput='value_2_range()'>";
+		  a+="</span>";
+		  a+="</div>";
+		  a+="</div>";
+		  $(".meg").append(a);
+
+      }
+    }
+  }
+}
+txtFile.send(null);
+</script>
+<script type="text/javascript">
+                function range_2_value(){
+					var x = document.getElementsByClassName('range');
+					var y = document.getElementsByClassName('value');
+					for(var i=0;i<x.length;i++){
+						y[i].value=x[i].value;
+					}
+                }
+                function value_2_range(){
+					var x = document.getElementsByClassName('range');
+					var y = document.getElementsByClassName('value');
+					for(var i=0;i<x.length;i++){
+						x[i].value=y[i].value;
+					}
+                }
+ </script>
+
+</body>
+</html>

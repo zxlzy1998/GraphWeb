@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Experiment Analysis</title>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="js/bootstrap.css">
+    <link rel="stylesheet" href="js/bootstrap-theme.css">
+    <script src="js/bootstrap.js"></script>
+
+<!--    <style>-->
+<!--        #datasettable{ float:left;width:49%}-->
+<!--        #graph{ float:right;width:49%}-->
+<!--    </style>-->
+
+</head>
+<script>
+    //get all echart data list to select
+    $(document).ready(function () {
+        $.ajax({
+            url: "graphdata/datasetlist.json",
+            success: function (data) {
+                var rslist = data.datasetlist;
+                var htmlStr = "";
+                for (var i in rslist) {
+                    htmlStr = htmlStr + "<option value='" + rslist[i] + "'>" + rslist[i] + "</option>";
+                }
+                $("#selectdataset").append(htmlStr);
+            }
+        });
+    });
+</script>
+<body>
+<div class="container">
+    <div class="headers-region">
+        <h1>Distributed Eta Core Decomposition Experiment Analysis</h1>
+        <hr>
+    </div>
+
+    <div class="row" style="margin: 20px">
+        <div class="col-md-4">
+            <select id="selectalgorithm" class="form-control">
+                <option disabled selected hidden>select an algorithm</option>
+                <option value="DCD" >Distributed Core Decomposition</option>
+                <option value="DECD" >Distributed Eta Core Decomposition</option>
+                <!--<option value="CD">Original Core Decomposition</option>-->
+                <!--<option value="ECD">Eta Core Decomposition</option>-->
+            </select>
+            <select id="selecteta" class="form-control" style="display: none">
+                <option value="5" disabled selected hidden>select eta value(default 0.5)</option>
+                <option value="1">0.1</option>
+                <option value="2">0.2</option>
+                <option value="3">0.3</option>
+                <option value="4">0.4</option>
+                <option value="5">0.5</option>
+                <option value="6">0.6</option>
+                <option value="7">0.7</option>
+                <option value="8">0.8</option>
+                <option value="9">0.9</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select id="selectdataset" class="form-control">
+                <option value="" disabled selected hidden>select a dataset</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button id="datasetinfobtn" class="btn btn-warning">show dataset graph</button>
+            <button id="submitbtn" class="btn btn-info">show the results</button>
+        </div>
+    </div>
+
+
+    <div class="row text-center">
+        <div class="col-md-6" id="datasettable" style="font-size: larger">
+            <script>
+                $("#datasettable").load("innerhtml/tableofdataset.html");
+
+                $("#selectdataset").on("change", function () {
+                    var tableid = $("#selectdataset").get(0).selectedIndex;
+                    for (var i = 1; i < 10; i++) {
+                        $("#table"+i).hide();
+
+                    }
+
+                    $("#table"+tableid).show();
+                    // $("#table"+tableid).style.display="block";
+                    // var id="table"+tableid;
+                    // document.getElementById("table1").style.display="block";
+                });
+            </script>
+        </div>
+        <div class="col-md-6" id="graph" style="height: 500px">
+            <script>
+                $("#selectdataset").on("change", function () {
+                     //var graph_dateset = 'graphdata/graphical.json';
+                    var graph_dateset = 'graphdata/data_test.json';
+                    showGraphRealation(graph_dateset,"graph");
+                });
+            </script>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="row text-left" id="parameterPanel" >
+            <div id="parameters">
+                <script>
+                    $("#parameters").load("innerhtml/paramofalgorithm.html");
+                    $("#selectalgorithm").on("change", function (){
+                        $("#paramDiv").show();
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="row text-left">
+            <h3>The first round and the final round coreness distribution</h3>
+            <div class="col-md-6">
+                <div id="chart1" style="height: 500px"></div>
+            </div>
+            <div class="col-md-6">
+                <div id="chart2" style="height: 500px"></div>
+            </div>
+        </div>
+
+        <div class="row left" style="margin-top: 20px">
+            <h3>Each coreness percentage</h3>
+            <div id="chart3" style="height: 700px"></div>
+        </div>
+
+        <div class="row text-left">
+            <h3>Each round the changed number of estimate value</h3>
+            <div id="chart4" style="height: 600px"></div>
+        </div>
+        <div class="row text-left">
+            <h3>Each round the changed number of estimate value percentage</h3>
+            <div id="chart5" style="height: 600px"></div>
+        </div>
+
+        <div class="row text-left">
+            <h3>Each round the no changed number of estimate value </h3>
+            <div id="chart6" style="height: 500px"></div>
+        </div>
+
+        <div class="row text-left">
+            <h3>Each round the no changed number of estimate value percentage</h3>
+            <div id="chart7" style="height: 500px"></div>
+        </div>
+
+        <div class="row left" style="margin-top: 20px">
+            <h3>Each round the using time (ms)</h3>
+            <div id="chart8" style="height: 1000px"></div>
+        </div>
+
+        <div class="row left" style="margin-top: 20px">
+            <h3>Each round the coreness distribution</h3>
+            <div id="chart9" style="height: 1000px"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><span class="glyphicon g" aria-hidden="true"></span>Warning
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                <div id="myAlert" class="alert alert-warning">
+                    <strong>Choose an algorithm and dataset</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#submitbtn").click(function () {
+        var selectalgorithm = $("#selectalgorithm option:selected").val();
+        var selectdataset = $("#selectdataset option:selected").val();
+        var selecteta = $("#selecteta option:selected").val();
+
+        if (selectalgorithm == "" || selectdataset == "") {
+            $('#myModal').modal();
+        } else {
+            showAllcharts(selectalgorithm, selectdataset, selecteta);
+        }
+    });
+
+    $("#datasetinfobtn").click(function () {
+        var datasetname = $("#selectdataset option:selected").val();
+        window.open("innerhtml/graphinfo.html?datasetname=" + datasetname);
+    });
+
+
+    function showeta() {
+        $("#selecteta").show();
+    }
+
+    function hideeta() {
+        $("#selecteta").hide();
+
+    }
+</script>
+<script type="text/javascript" src="js/echarts.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript"
+        src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script type="text/javascript" src="js/echartconstructerfunction.js"></script>
+</body>
+</html>
