@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>paramPanel</title>
+  <link href="static/css/nice-select.css" rel="stylesheet">
+  <link href="static/css/owl.carousel.css" rel="stylesheet">
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <!-- Style css -->
+  <link href="static/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+<div id="paramDiv" class="row" style="margin-top: 20px ;display: none">
+  <h4>Parameters Setting</h4>
+</div>
+
+<script>
+  var txtFile = new XMLHttpRequest();
+  txtFile.open("GET","graphdata/paramlist.txt",true);
+  txtFile.onreadystatechange = function() {
+    if (txtFile.readyState === 4) {
+      if (txtFile.status === 200) {
+        allText = txtFile.responseText;
+        lines = txtFile.responseText.split("\n");
+
+        for (var i = 0; i < lines.length; i++) {
+          var values = lines[i].split(",");
+          var minV = values[1], paraV = values[0], maxV = values[2], stepV = values[3];
+          var htmlJoint = '';
+          var classType = "col-md-" + 12 / lines.length;
+          htmlJoint += "<div id =" + i + " class =" + classType + ">";
+          htmlJoint += "<input class='range' type='range' min=" + minV + " max=" + maxV + " step=" + stepV + " value=" + minV + " oninput='range_2_value()'>";
+          htmlJoint += "<div class='col-md-12'>";
+          htmlJoint += "<span id='para' class='col-md-6'>" + paraV + " </span>";
+          htmlJoint += "<span class='col-md-6' id='number'>";
+          htmlJoint += "<input class= 'value' type='number' min=" + minV + " max=" + maxV + " step=" + stepV + " value=" + minV + " oninput='value_2_range()'>";
+          htmlJoint += "</span>";
+          htmlJoint += "</div>";
+          htmlJoint += "</div>";
+          $("#paramDiv").append(htmlJoint);
+        }
+      }
+    }
+  }
+  txtFile.send(null);
+</script>
+
+<script type="text/javascript">
+  function range_2_value(){
+    var x = document.getElementsByClassName('range');
+    var y = document.getElementsByClassName('value');
+    for(var i=0;i<x.length;i++){
+      y[i].value=x[i].value;
+    }
+  }
+  function value_2_range(){
+    var x = document.getElementsByClassName('range');
+    var y = document.getElementsByClassName('value');
+    for(var i=0;i<x.length;i++){
+      x[i].value=y[i].value;
+    }
+  }
+</script>
+
+</body>
+</html>
